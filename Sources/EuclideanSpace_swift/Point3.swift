@@ -29,45 +29,57 @@ public struct Point3 {
     }
 }
 
+public extension Point3 {
+    static let origin = Point3()
+}
+
 /// Properties
-extension Point3 {
-    public subscript(index: Int) -> Double {
+public extension Point3 {
+    subscript(index: Int) -> Double {
         get { return m_impl[index] } 
         set { m_impl[index] = newValue }
     }
     
-    public var x: Double {
+    var x: Double {
         get { return m_impl[0] } 
         set { m_impl[0] = newValue }
     }
     
-    public var y: Double {
+    var y: Double {
         get { return m_impl[1] } 
         set { m_impl[1] = newValue }
     }
     
-    public var z: Double {
+    var z: Double {
         get { return m_impl[2] } 
         set { m_impl[2] = newValue }
     }
     
-    public var array: [Double] {
+    var array: [Double] {
         get { return m_impl } 
         set { m_impl = newValue }
+    }
+    
+    var distanceFromOrigin: Double {
+        return distanceFrom(otherPoint: Point3.origin)
     }
 }
 
 /// Methods
-extension Point3 {
-    public mutating func reset() {        
+public extension Point3 {
+    mutating func reset() {
         x = 0.0
         y = 0.0
+    }
+    
+    func distanceFrom(otherPoint p: Point3) -> Double {
+        return computeEuclideanDistance(srcCoords: p.array, dstCoords: array)
     }
 }
  
 /// Operators
-extension Point3 {
-    public static prefix func - (p: inout Point3) -> Point3 {
+public extension Point3 {
+    static prefix func - (p: inout Point3) -> Point3 {
         p.x = -p.x
         p.y = -p.y
         p.z = -p.z
@@ -76,8 +88,8 @@ extension Point3 {
 }
 
 /// Operators on self
-extension Point3 {
-    public mutating func negate() -> Point3 {
+public extension Point3 {
+    mutating func negate() -> Point3 {
         return -self
     }
 }
