@@ -37,80 +37,95 @@ public struct Vector2 {
     }
 }
 
+public extension Vector2 {
+    static let zeroVector = Vector2()
+    
+    static let unitVector_i = Vector2(1.0, 0.0)
+    static let unitVector_j = Vector2(0.0, 1.0)
+}
+
 /// Properties
-extension Vector2 {
-    public subscript(_ index: Int) -> Double {
+public extension Vector2 {
+    subscript(_ index: Int) -> Double {
         get { return m_impl[index] } 
         set { m_impl[index] = newValue }
     }
     
-    public var x: Double {
+    var x: Double {
         get { return m_impl[0] } 
         set { m_impl[0] = newValue }
     }
     
-    public var y: Double {
+    var y: Double {
         get { return m_impl[1] }
         set { m_impl[1] = newValue}
     }
     
-    public var array: [Double] {
+    var array: [Double] {
         get { return m_impl } 
         set { m_impl = newValue }
     }
 
-    public var magnitude: Double {
+    var magnitude: Double {
         return computeEuclideanDistance(
-            srcCoords: Vector2.Constants.zeroVector.array,
+            srcCoords: Vector2.zeroVector.array,
             dstCoords: m_impl)
     }
-
+    
+    var angleWithRespectToXAxis: Double {
+        return angle(withRespectTo: Vector2.unitVector_i)
+    }
+    
+    var angleWithRespectToYAxis: Double {
+        return angle(withRespectTo: Vector2.unitVector_j)
+    }
 }
 
 /// Methods
-extension Vector2 {
-    public mutating func reset() { 
+public extension Vector2 {
+    mutating func reset() {
         x = 0.0
         y = 0.0
     }
     
-    public func angle(withRespectTo v: Vector2) -> Double {
-        return computeDotProduct(srcComponent: m_impl, dstComponent: v.array)
-            / (magnitude * v.magnitude)
+    func angle(withRespectTo v: Vector2) -> Double {
+        return computeDotProduct(srcComponent: m_impl,
+                                 dstComponent: v.array)
+               / (magnitude * v.magnitude)
     }
 }
 
 /// Operators (inout)
-extension Vector2 {
-    public static prefix func - (v: inout Vector2) -> Vector2 {
+public extension Vector2 {
+    static prefix func - (v: inout Vector2) -> Vector2 {
         v.x = -v.x
         v.y = -v.y
         return v
     }
 
-    public static func += (lhs: inout Vector2, rhs: Vector2) -> Vector2 {
+    static func += (lhs: inout Vector2, rhs: Vector2) -> Vector2 {
         lhs.x += rhs.x
         lhs.y += rhs.y
         return lhs
     }
 
-    public static func -= (lhs: inout Vector2, rhs: Vector2) -> Vector2 {
+    static func -= (lhs: inout Vector2, rhs: Vector2) -> Vector2 {
         lhs.x -= rhs.x
         lhs.y -= rhs.y
         return lhs
     }
     
-    public static func *= (v: inout Vector2, scalar: Double) -> Vector2 {
+    static func *= (v: inout Vector2, scalar: Double) -> Vector2 {
         v.x *= scalar
         v.y *= scalar
         return v
     }
     
-    public static func *= (lhs: inout Vector2, rhs: Vector2) -> Double {
+    static func *= (lhs: inout Vector2, rhs: Vector2) -> Double {
         return computeDotProduct(srcComponent: lhs.array, dstComponent: rhs.array)
     }
     
-    public static func /= (v: inout Vector2, scalar: Double) -> Vector2 {
+    static func /= (v: inout Vector2, scalar: Double) -> Vector2 {
         v.x /= scalar
         v.y /= scalar
         return v
@@ -118,90 +133,90 @@ extension Vector2 {
 }
 
 /// Operators (pass/return by value)
-extension Vector2 {
-    public static func + (lhs: Vector2, rhs: Vector2) -> Vector2 {
+public extension Vector2 {
+    static func + (lhs: Vector2, rhs: Vector2) -> Vector2 {
         var tempLeft = lhs
         return tempLeft += rhs
     }
     
-    public static func - (lhs: Vector2, rhs: Vector2) -> Vector2 {
+    static func - (lhs: Vector2, rhs: Vector2) -> Vector2 {
         var tempLeft = lhs
         return tempLeft -= rhs
     }
 
     
-    public static func * (v: Vector2, scalar: Double) -> Vector2 {
+    static func * (v: Vector2, scalar: Double) -> Vector2 {
         var tempLeft = v
         return tempLeft *= scalar
     }
     
-    public static func * (lhs: Vector2, rhs: Vector2) -> Double {
+    static func * (lhs: Vector2, rhs: Vector2) -> Double {
         var tempLeft = lhs
         return tempLeft *= rhs
     }
     
-    public static func / (v: Vector2, scalar: Double) -> Vector2 {
+    static func / (v: Vector2, scalar: Double) -> Vector2 {
         var tempLeft = v
         return tempLeft /= scalar
     }
 }
 
 /// Operators as static methods (pass/return by value)
-extension Vector2 {
-    public static func negation(ofVector v: Vector2) -> Vector2 {
+public extension Vector2 {
+    static func negation(ofVector v: Vector2) -> Vector2 {
         var tempLeft = v
         return -tempLeft
     }
     
-    public static func sum(ofVector u: Vector2, andVector v: Vector2) -> Vector2 {
+    static func sum(ofVector u: Vector2, andVector v: Vector2) -> Vector2 {
         var tempLeft = u
         return tempLeft += v
     }
     
-    public static func difference(ofVector u: Vector2, andVector v: Vector2) -> Vector2 {
+    static func difference(ofVector u: Vector2, andVector v: Vector2) -> Vector2 {
         var tempLeft = u
         return tempLeft -= v
     }
     
-    public static func product(ofVector v: Vector2, andScalar s: Double) -> Vector2 {
+    static func product(ofVector v: Vector2, andScalar s: Double) -> Vector2 {
         var tempLeft = v
         return tempLeft *= s
     }
     
-    public static func quotient(ofVector v: Vector2, andScalar s: Double) -> Vector2 {
+    static func quotient(ofVector v: Vector2, andScalar s: Double) -> Vector2 {
         var tempLeft = v
         return tempLeft /= s
     }
     
-    public static func dotProduct(ofVector u: Vector2, andVector v: Vector2) -> Double {
+    static func dotProduct(ofVector u: Vector2, andVector v: Vector2) -> Double {
         var tempLeft = u
         return tempLeft *= v
     }
 }
  
 /// Operators as instance methods
-extension Vector2 {
-    public mutating func negate() -> Vector2 {
+public extension Vector2 {
+    mutating func negate() -> Vector2 {
         return -self
     }
     
-    public mutating func add(withVector v: Vector2) -> Vector2 {
+    mutating func add(withVector v: Vector2) -> Vector2 {
         return self += v
     }
     
-    public mutating func subtract(byVector v: Vector2) -> Vector2 {
+    mutating func subtract(byVector v: Vector2) -> Vector2 {
         return self -= v
     }
 
-    public mutating func multiply(byScalar s: Double) -> Vector2 {
+    mutating func multiply(byScalar s: Double) -> Vector2 {
         return self *= s
     }
     
-    public mutating func divide(byScalar s: Double) -> Vector2 {
+    mutating func divide(byScalar s: Double) -> Vector2 {
         return self /= s
     }
     
-    public mutating func asDotProduct(withVector v: Vector2) -> Double {
+    mutating func asDotProduct(withVector v: Vector2) -> Double {
         return self *= v
     }
 }
@@ -216,13 +231,5 @@ extension Vector2 : Equatable {
     public static func == (_ lhs: Vector2, _ rhs: Vector2) -> Bool {
         return lhs.x.isEqual(to: rhs.x) 
             && lhs.y.isEqual(to: rhs.y)
-    }
-}
-
-extension Vector2 {
-    enum Constants {
-        static let zeroVector = Vector2()
-        static let unitVector_i = Vector2(1.0, 0.0)
-        static let unitVector_j = Vector2(0.0, 1.0)
     }
 }
