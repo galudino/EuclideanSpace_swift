@@ -22,7 +22,7 @@ let package = Package(
             name: "EuclideanSpace_swift",
             dependencies: []),
         .testTarget(
-            name: "EuclideanSpace_swiftTests",
+            name: "EuclideanSpace-swiftTests",
             dependencies: ["EuclideanSpace_swift"]),
     ]
 )
